@@ -9,10 +9,7 @@ class AverageMaxTempature:
     def __init__(self, keys):
         self.cities = APICall(keys).tasks
         self.cities = [City(city) for city in self.cities]
-        #self.cities = [City(city) for city in cities]
 
-    
-        
     def printAverages(self):
         for city in self.cities:
             print(city.title+" Average Max Temp: ",city.average)
@@ -20,14 +17,11 @@ class AverageMaxTempature:
 
 class City:
     def __init__(self, data):
-        self.json = json.loads(data.text())
-        self.key = data["woeid"]
-        #self.key = key
-        #self.data = self.getWeatherData()
-        #self.json = self.data.json()
+        self.json = json.loads(data.text)
+        self.key = self.json["woeid"]
         self.consolidated_weather = self.json["consolidated_weather"]
         self.max_temps = [self.consolidated_weather[i]["max_temp"] for i in range(5)]
-        self.average = sum(self.max_temps)/len(self.max_temps)
+        self.average = round(sum(self.max_temps)/len(self.max_temps), 2)
         self.title = self.json["title"]
         
 
@@ -60,11 +54,7 @@ class APICall:
 
 
 if __name__ == "__main__":
-    cities = ["2487610","2442047","2366355"]
-    #avg = AverageMaxTempature(cities)
-    #avg.printAverages()
-    #call = APICall(cities)
-    #call.runner()
-    test = AverageMaxTempature(cities)
+    cityKeys = ["2487610","2442047","2366355"]
+    test = AverageMaxTempature(cityKeys)
     test.printAverages()
 
